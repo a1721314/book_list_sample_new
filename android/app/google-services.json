@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "456832227120",
+    "project_id": "book-list-sample-new",
+    "storage_bucket": "book-list-sample-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456832227120:android:b6b15f87e1a0c58b399af5",
+        "android_client_info": {
+          "package_name": "net.udemy.book_list_sample_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456832227120-9l9gqfjf8h6cn7n7l1vfinpuioc0dri5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp3rfOmVYKgl169uzdeWhZmOFh2IXUFL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456832227120-9l9gqfjf8h6cn7n7l1vfinpuioc0dri5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "456832227120-ol86n4nkfc00e5gbvgn0ptlph7dvs0rs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.kboy.bookListSample"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
