@@ -12,12 +12,18 @@ class BookListModel extends ChangeNotifier{
 
     final List<Book> books = snapshot.docs.map((DocumentSnapshot document) {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+      final String id = document.id;
       final String title = data['title'];
       final String author = data['author'];
-      return Book(title, author);
+      final String? imgURL = data['imgURL'];
+      return Book(id, title, author, imgURL);
     }).toList();
 
     this.books = books;
     notifyListeners();
+  }
+
+  Future delete(Book book){
+    return FirebaseFirestore.instance.collection('books').doc(book.id).delete();
   }
 }

@@ -1,46 +1,46 @@
-import 'package:book_list_sample_new/domain/book.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'edit_book_model.dart';
+import 'edit_profile_model.dart';
 
-class EditBookPage extends StatelessWidget {
-  final Book book;
-  EditBookPage(this.book);
+class EditProfilePage extends StatelessWidget {
+  EditProfilePage(this.name, this.desctiption);
+  final String name;
+  final String desctiption;
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<EditBookModel>(
-      create: (_) => EditBookModel(book),
+    return ChangeNotifierProvider<EditProfileModel>(
+      create: (_) => EditProfileModel(name, desctiption),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('本を編集'),
+          title: const Text('プロフィール編集'),
         ),
         body: Center(
-          child: Consumer<EditBookModel>(builder: (context, model, child) {
+          child: Consumer<EditProfileModel>(builder: (context, model, child) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children:[
                   TextField(
-                    controller:model.titleController,
+                    controller:model.nameController,
                     decoration:const InputDecoration(
-                      hintText: '本のタイトル',
+                      hintText: '名前',
                     ),
                     onChanged: (text){
-                      model.setTitle(text);
+                      model.setName(text);
                     },
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   TextField(
-                    controller:model.authorController,
+                    controller:model.descriptionController,
                     decoration:const InputDecoration(
-                      hintText: '本の著者',
+                      hintText: '自己紹介',
                     ),
                     onChanged: (text){
-                      model.setAuthor(text);
+                      model.setDescription(text);
                     },
                   ),
                   const SizedBox(
@@ -51,7 +51,7 @@ class EditBookPage extends StatelessWidget {
                         // 更新の処理
                         try {
                           await model.update();
-                          Navigator.of(context).pop(model.title);
+                          Navigator.of(context).pop();
                         } catch(e){
                           final snackBar = SnackBar(
                             backgroundColor:Colors.red,
