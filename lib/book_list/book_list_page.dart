@@ -34,7 +34,7 @@ class BookListPage extends StatelessWidget {
         length:2,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('本一覧'),
+            title: const Text('本棚'),
             actions:[
               IconButton(
                   onPressed: () async {
@@ -59,8 +59,8 @@ class BookListPage extends StatelessWidget {
             ],
             bottom: TabBar(
               tabs: <Widget>[
-                Tab(icon: Icon(Icons.cloud_outlined)),
-                Tab(icon: Icon(Icons.beach_access_sharp)),
+                Tab(text:'自分の本棚'),
+                Tab(text:'他の人の本棚'),
               ],
             ),
           ),
