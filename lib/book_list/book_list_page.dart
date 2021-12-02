@@ -108,8 +108,6 @@ class BookListPage extends StatelessWidget {
                                     backgroundColor:Colors.green,
                                     content: Text('$titleを編集しました'),
                                   );
-                                  //ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                  print('編集完了！！！！！！！！！');
                                 }
                                 model.fetchBookList();
 
@@ -136,7 +134,74 @@ class BookListPage extends StatelessWidget {
               );
             }),
               ),
-              Center(child: Text('雨', style: TextStyle(fontSize: 50))),
+              Center(
+                child: Consumer<BookListModel>(builder: (context, model, child) {
+                  final List<Book>? books = model.books;
+
+                  if(books == null)
+                  {
+                    return const CircularProgressIndicator();
+                  }
+
+                  final List<Widget> widgets = books
+                      .map(
+                        (book) => Slidable(
+                      child: ListTile(
+                        leading: book.imgURL!= null? Image.network(book.imgURL!):null,
+                        title: Text(book.title),
+                        subtitle: Text(book.author),
+                      ),
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        dismissible: DismissiblePane(onDismissed: () {}),
+                        children:  [
+                          SlidableAction(
+                            // An action can be bigger than the others.
+                            flex: 2,
+                            backgroundColor: Color(0xFF7BC043),
+                            foregroundColor: Colors.white,
+                            icon: Icons.edit,
+                            label: '編集',
+                            onPressed: (BuildContext context) async {
+                              //編集画面に遷移
+                              final String? title = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditBookPage(book),
+                                ),
+                              );
+
+                              if(title != null){
+                                final snackBar = SnackBar(
+                                  backgroundColor:Colors.green,
+                                  content: Text('$titleを編集しました'),
+                                );
+                              }
+                              model.fetchBookList();
+
+                            },
+                          ),
+                          SlidableAction(
+                            backgroundColor: Color(0xFF0392CF),
+                            foregroundColor: Colors.white,
+                            icon: Icons.delete,
+                            label: '削除',
+                            onPressed: (BuildContext context) async{
+                              //削除しますか？って聞いて、はいだったら削除
+                              await showConfirmDialog(context,book,model);
+                            },
+                          ),
+                        ],
+                      ),
+
+                    ),
+                  )
+                      .toList();
+                  return ListView(
+                    children:widgets,
+                  );
+                }),
+              ),
             ],
           ),
           floatingActionButton: Consumer<BookListModel>(builder: (context, model, child) {
@@ -171,7 +236,7 @@ class BookListPage extends StatelessWidget {
     );
   }
 
-  Future showConfirmDialog(BuildContext context, Book book, BookListModel model){
+  Future showConfirmDialog(BuildContext context, Book book, model){
     return showDialog(
       context: context,
       barrierDismissible: false,
