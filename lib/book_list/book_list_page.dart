@@ -5,24 +5,13 @@ import 'package:book_list_sample_new/book_list/book_list_model.dart';
 import 'package:book_list_sample_new/domain/book.dart';
 import 'package:book_list_sample_new/edit_book/edit_book_page.dart';
 import 'package:book_list_sample_new/login/login_page.dart';
+import 'package:book_list_sample_new/mypage/my_model.dart';
 import 'package:book_list_sample_new/mypage/my_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BookListPage(),
-    );
-  }
-}
 
 class BookListPage extends StatelessWidget {
 
@@ -70,10 +59,25 @@ class BookListPage extends StatelessWidget {
             child: Consumer<BookListModel>(builder: (context, model, child) {
               final List<Book>? books = model.books;
 
+
               if(books == null)
                 {
                   return const CircularProgressIndicator();
                 }
+
+              //データベースのusersのuidとbooksのuidが等しいとき
+              ChangeNotifierProvider(
+                  create: (_) => MyModel()..fetchUser(),
+                  child: Consumer<MyModel>(builder: (context, model, child) {
+                  final uid = model.uid;
+                  if(uid == books.map((book) => book.uid)){
+
+                  }
+                  return Column(
+
+              );
+            })
+              );
 
               final List<Widget> widgets = books
                   .map(
@@ -81,7 +85,7 @@ class BookListPage extends StatelessWidget {
                       child: ListTile(
                         leading: book.imgURL!= null? Image.network(book.imgURL!):null,
                         title: Text(book.title),
-                        subtitle: Text(book.author),
+                        subtitle: Text(book.uid),
                       ),
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),

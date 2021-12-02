@@ -16,7 +16,8 @@ class BookListModel extends ChangeNotifier{
       final String title = data['title'];
       final String author = data['author'];
       final String? imgURL = data['imgURL'];
-      return Book(id, title, author, imgURL);
+      final String uid = data['uid'];
+      return Book(id, title, author, imgURL, uid);
     }).toList();
 
     this.books = books;

@@ -8,6 +8,7 @@ class MyModel extends ChangeNotifier{
   String? name;
   String? email;
   String? descrition;
+  String? uid;
 
   void startLoading(){
     isLoading = true;
