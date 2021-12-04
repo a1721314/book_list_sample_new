@@ -15,10 +15,13 @@ import 'package:provider/provider.dart';
 
 class BookListPage extends StatelessWidget {
 
+  // ユーザーIDの取得
+  final String uid = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<BookListModel>(
-    create: (_) => BookListModel()..fetchBookList(),
+    create: (_) => BookListModel()..fetchBookList(uid:uid,isAllBook: true),
       child: DefaultTabController(
         length:2,
         child: Scaffold(
@@ -59,25 +62,10 @@ class BookListPage extends StatelessWidget {
             child: Consumer<BookListModel>(builder: (context, model, child) {
               final List<Book>? books = model.books;
 
-
               if(books == null)
                 {
                   return const CircularProgressIndicator();
                 }
-
-              //データベースのusersのuidとbooksのuidが等しいとき
-              ChangeNotifierProvider(
-                  create: (_) => MyModel()..fetchUser(),
-                  child: Consumer<MyModel>(builder: (context, model, child) {
-                  final uid = model.uid;
-                  if(uid == books.map((book) => book.uid)){
-
-                  }
-                  return Column(
-
-              );
-            })
-              );
 
               final List<Widget> widgets = books
                   .map(
@@ -113,7 +101,7 @@ class BookListPage extends StatelessWidget {
                                     content: Text('$titleを編集しました'),
                                   );
                                 }
-                                model.fetchBookList();
+                                model.fetchBookList(uid:uid,isAllBook: false);
 
                               },
                           ),
@@ -181,7 +169,7 @@ class BookListPage extends StatelessWidget {
                                   content: Text('$titleを編集しました'),
                                 );
                               }
-                              model.fetchBookList();
+                              model.fetchBookList(uid:uid,isAllBook: true);
 
                             },
                           ),
@@ -227,7 +215,7 @@ class BookListPage extends StatelessWidget {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                  model.fetchBookList();
+                  model.fetchBookList(uid:uid,isAllBook: false);
 
                 },
                 tooltip: 'Increment',

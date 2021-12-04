@@ -6,11 +6,24 @@ import 'package:flutter/material.dart';
 class BookListModel extends ChangeNotifier{
   List<Book>? books;
 
-  void fetchBookList() async{
-    final QuerySnapshot snapshot =
-      await FirebaseFirestore.instance.collection('books').get();
+  void fetchBookList({required String uid, required bool isAllBook}) async{
+    final QuerySnapshot snapshot;
 
-    final List<Book> books = snapshot.docs.map((DocumentSnapshot document) {
+    // todosコレクションのデータを取得
+    if (isAllBook == true) {
+      snapshot = await FirebaseFirestore.instance
+      // 全ての本を取得
+      .collection('books')
+      .get();
+    } else {
+      snapshot = await FirebaseFirestore.instance
+      // 自身の本のみ取得
+      .collection('books')
+      .where('uid', isEqualTo: uid)
+      .get();
+    }
+
+      final List<Book> books = snapshot.docs.map((DocumentSnapshot document) {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
       final String id = document.id;
       final String title = data['title'];
