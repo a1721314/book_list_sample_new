@@ -9,7 +9,7 @@ class BookListModel extends ChangeNotifier{
   void fetchBookList({required String uid, required bool isAllBook}) async{
     final QuerySnapshot snapshot;
 
-    // todosコレクションのデータを取得
+    // booksコレクションのデータを取得
     if (isAllBook == true) {
       snapshot = await FirebaseFirestore.instance
       // 全ての本を取得

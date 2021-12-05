@@ -66,6 +66,7 @@ class BookListPage extends StatelessWidget {
                 {
                   return const CircularProgressIndicator();
                 }
+              model.fetchBookList(uid:uid,isAllBook: false);
 
               final List<Widget> widgets = books
                   .map(
@@ -73,7 +74,7 @@ class BookListPage extends StatelessWidget {
                       child: ListTile(
                         leading: book.imgURL!= null? Image.network(book.imgURL!):null,
                         title: Text(book.title),
-                        subtitle: Text(book.uid),
+                        subtitle: Text(book.author),
                       ),
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
@@ -101,7 +102,7 @@ class BookListPage extends StatelessWidget {
                                     content: Text('$titleを編集しました'),
                                   );
                                 }
-                                model.fetchBookList(uid:uid,isAllBook: false);
+                                //model.fetchBookList(uid:uid,isAllBook: false);
 
                               },
                           ),
@@ -134,6 +135,7 @@ class BookListPage extends StatelessWidget {
                   {
                     return const CircularProgressIndicator();
                   }
+                  model.fetchBookList(uid:uid,isAllBook: true);
 
                   final List<Widget> widgets = books
                       .map(
@@ -169,7 +171,7 @@ class BookListPage extends StatelessWidget {
                                   content: Text('$titleを編集しました'),
                                 );
                               }
-                              model.fetchBookList(uid:uid,isAllBook: true);
+                              //model.fetchBookList(uid:uid,isAllBook: true);
 
                             },
                           ),
