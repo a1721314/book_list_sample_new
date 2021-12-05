@@ -17,6 +17,9 @@ class BookListPage extends StatelessWidget {
 
   // ユーザーIDの取得
   final String uid = FirebaseAuth.instance.currentUser!.uid;
+  var _navIndex = 0;
+  var _label = '';
+  var _titles = ['Contacts', 'Map', 'Chat'];
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +59,7 @@ class BookListPage extends StatelessWidget {
               ],
             ),
           ),
+
           body: TabBarView(
             children: [
               Center(
@@ -198,6 +202,28 @@ class BookListPage extends StatelessWidget {
               ),
             ],
           ),
+
+          bottomNavigationBar: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.contacts),
+                title: Text('マイページ'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                title: Text('本の追加'),
+              ),
+            ],
+            onTap: (int indexNumber) {
+                //setState(() {
+                _navIndex = indexNumber;
+                _label = _titles[indexNumber];
+                //},
+                //);
+            },
+            currentIndex: _navIndex,
+          ),
+
           floatingActionButton: Consumer<BookListModel>(builder: (context, model, child) {
               return FloatingActionButton(
                 onPressed: () async{
