@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +11,7 @@ class AddBookModel extends ChangeNotifier{
   String? title;
   String? author;
   File? imageFile;
+  final String uid = FirebaseAuth.instance.currentUser!.uid;
   bool isLoading = false;
 
   final picker = ImagePicker();
@@ -47,6 +49,7 @@ class AddBookModel extends ChangeNotifier{
       'title': title,
       'author': author,
       'imgURL': imgURL,
+      'uid':uid,
     });
   }
 

@@ -25,40 +25,35 @@ class BookListPage extends StatelessWidget {
           ChangeNotifierProvider<BookListModel>(
             create: (_) => BookListModel()..fetchBookList(uid:uid,isAllBook: true),
           ),
-          ChangeNotifierProvider<BottomNavigationModel>(
-          create: (_) => BottomNavigationModel(),
-          ),
         ],
-    // return ChangeNotifierProvider<BookListModel>(
-    // create: (_) => BookListModel()..fetchBookList(uid:uid,isAllBook: true),
       child: DefaultTabController(
         length:2,
         child: Scaffold(
           appBar: AppBar(
             title: const Text('本棚'),
-            actions:[
-              IconButton(
-                  onPressed: () async {
-                    //画面遷移
-                    if(FirebaseAuth.instance.currentUser != null){
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyPage(),
-                        ),
-                      );
-                    }else{
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                        ),
-                      );
-                    }
-                  },
-                  icon: Icon(Icons.person)),
-            ],
-            bottom: TabBar(
+            // actions:[
+            //   IconButton(
+            //       onPressed: () async {
+            //         //画面遷移
+            //         if(FirebaseAuth.instance.currentUser != null){
+            //           await Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (context) => MyPage(),
+            //             ),
+            //           );
+            //         }else{
+            //           await Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (context) => LoginPage(),
+            //             ),
+            //           );
+            //         }
+            //       },
+            //       icon: Icon(Icons.person)),
+            // ],
+            bottom: const TabBar(
               tabs: <Widget>[
                 Tab(text:'自分の本棚'),
                 Tab(text:'他の人の本棚'),
@@ -77,29 +72,6 @@ class BookListPage extends StatelessWidget {
                   return const CircularProgressIndicator();
                 }
               model.fetchBookList(uid:uid,isAllBook: false);
-
-              // Consumer<BottomNavigationModel>(builder: (context, model, child) {
-              //   return Scaffold(
-              //     // 今選択している番号のページを呼び出します。
-              //     bottomNavigationBar: BottomNavigationBar(
-              //       items: const [
-              //         BottomNavigationBarItem(
-              //           icon: Icon(Icons.contacts),
-              //           title: Text('マイページ'),
-              //         ),
-              //         BottomNavigationBarItem(
-              //           icon: Icon(Icons.add),
-              //           title: Text('本の追加'),
-              //         ),
-              //       ],
-              //       currentIndex: model.currentIndex,
-              //       onTap: (index) {
-              //         // indexで今タップしたアイコンの番号にアクセスできます。
-              //         model.currentIndex = index; // indexをモデルに渡したときに notifyListeners(); を呼んでいます。
-              //       },
-              //     ),
-              //   );
-              // });
 
               final List<Widget> widgets = books
                   .map(
@@ -136,7 +108,6 @@ class BookListPage extends StatelessWidget {
                                   );
                                 }
                                 //model.fetchBookList(uid:uid,isAllBook: false);
-
                               },
                           ),
                           SlidableAction(
@@ -206,7 +177,6 @@ class BookListPage extends StatelessWidget {
                                 );
                               }
                               //model.fetchBookList(uid:uid,isAllBook: true);
-
                             },
                           ),
                           SlidableAction(
@@ -221,7 +191,6 @@ class BookListPage extends StatelessWidget {
                           ),
                         ],
                       ),
-
                     ),
                   ).toList();
                   return ListView(
@@ -241,8 +210,7 @@ class BookListPage extends StatelessWidget {
             icon: Icon(Icons.add),
             title: Text('本追加'),
           ),
-        ],
-            fixedColor: Colors.blueAccent,
+        ], fixedColor: Colors.blueAccent,
           unselectedItemColor: Colors.blueAccent,
           onTap: (index) async{
             if(index == 0){
@@ -284,33 +252,33 @@ class BookListPage extends StatelessWidget {
           }
         ),
 
-          floatingActionButton: Consumer<BookListModel>(builder: (context, model, child) {
-              return FloatingActionButton(
-                onPressed: () async{
-                  //画面遷移
-                  final bool? added = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddBookPage(),
-                      fullscreenDialog: true,
-                    ),
-                  );
-
-                  if(added != null && added){
-                    final snackBar = SnackBar(
-                      backgroundColor:Colors.green,
-                      content: Text('本を追加しました'),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                  model.fetchBookList(uid:uid,isAllBook: false);
-
-                },
-                tooltip: 'Increment',
-                child: const Icon(Icons.add),
-              );
-            },
-          ),
+          // floatingActionButton: Consumer<BookListModel>(builder: (context, model, child) {
+          //     return FloatingActionButton(
+          //       onPressed: () async{
+          //         //画面遷移
+          //         final bool? added = await Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //             builder: (context) => AddBookPage(),
+          //             fullscreenDialog: true,
+          //           ),
+          //         );
+          //
+          //         if(added != null && added){
+          //           final snackBar = SnackBar(
+          //             backgroundColor:Colors.green,
+          //             content: Text('本を追加しました'),
+          //           );
+          //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //         }
+          //         model.fetchBookList(uid:uid,isAllBook: false);
+          //
+          //       },
+          //       tooltip: 'Increment',
+          //       child: const Icon(Icons.add),
+          //     );
+          //   },
+          // ),
         ),
       ),
     );
@@ -346,47 +314,6 @@ class BookListPage extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-}
-  class BottomNavigationModel extends ChangeNotifier {
-
-  int _currentIndex = 0;
-
-  // getterとsetterを指定しています
-  // setのときにnotifyListeners()を呼ぶことアイコンタップと同時に画面を更新しています。
-  int get currentIndex => _currentIndex;
-
-  set currentIndex(int index) {
-      _currentIndex = index;
-      notifyListeners(); // View側に変更を通知
-  }
-
-  }
-class SampleTabItem extends StatelessWidget {
-  final String title;
-  final Color color;
-
-  const SampleTabItem(this.title, this.color) : super();
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: this.color,
-      body: new Container(
-        child: new Center(
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new Text(this.title,
-                  style: new TextStyle(
-                      color: Colors.white,
-                      fontSize: 36.0,
-                      fontWeight: FontWeight.bold))
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
