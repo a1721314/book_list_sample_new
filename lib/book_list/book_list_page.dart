@@ -73,14 +73,16 @@ class BookListPage extends StatelessWidget {
                 }
               model.fetchBookList(uid:uid,isAllBook: false);
 
-              final List<Widget> widgets = books
+              final Iterable widgets = books
                   .map(
                     (book) => Slidable(
-                      child: ListTile(
-                        leading: book.imgURL!= null? Image.network(book.imgURL!):null,
-                        title: Text(book.title),
-                        subtitle: Text(book.author),
-                      ),
+                      child: ListView.separated(
+                         itemBuilder:(context,index){
+                           ListTile(
+                            leading: Container(child: book.imgURL!= null? Image.network(book.imgURL!, height:60,width:60,fit:BoxFit.cover):null),
+                            title: Text(book.title),
+                            subtitle: Text(book.author),
+                          );},
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
                         dismissible: DismissiblePane(onDismissed: () {}),
@@ -146,7 +148,7 @@ class BookListPage extends StatelessWidget {
                       .map(
                         (book) => Slidable(
                       child: ListTile(
-                        leading: book.imgURL!= null? Image.network(book.imgURL!):null,
+                        leading: book.imgURL!= null? Image.network(book.imgURL!, height:60,width:60,fit:BoxFit.cover):null,
                         title: Text(book.title),
                         subtitle: Text(book.author),
                       ),
