@@ -73,16 +73,15 @@ class BookListPage extends StatelessWidget {
                 }
               model.fetchBookList(uid:uid,isAllBook: false);
 
-              final Iterable widgets = books
+              final List<Widget> widgets = const <Widget>[
+                  books
                   .map(
                     (book) => Slidable(
-                      child: ListView.separated(
-                         itemBuilder:(context,index){
-                           ListTile(
-                            leading: Container(child: book.imgURL!= null? Image.network(book.imgURL!, height:60,width:60,fit:BoxFit.cover):null),
-                            title: Text(book.title),
-                            subtitle: Text(book.author),
-                          );},
+                      child:ListTile(
+                              leading: Container(child: book.imgURL!= null? Image.network(book.imgURL!, height:60,width:60,fit:BoxFit.cover):null),
+                              title: Text(book.title),
+                              subtitle: Text(book.author),
+                          ),
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
                         dismissible: DismissiblePane(onDismissed: () {}),
@@ -124,14 +123,20 @@ class BookListPage extends StatelessWidget {
                           ),
                         ],
                       ),
-
-                    ),
-              )
+                      ),
+              )];
               .toList();
-              return ListView(
-                children:widgets,
+              return ListView.separated(
+                itemBuilder:(context,index){
+                  return widgets;
+              },
+                separatorBuilder: (context, index) {
+                return const Divider(
+                height: 1,
+                );
+                },
+              itemCount: books.length,
               );
-
             }),
               ),
               Center(
