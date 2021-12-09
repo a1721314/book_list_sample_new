@@ -73,15 +73,18 @@ class BookListPage extends StatelessWidget {
                 }
               model.fetchBookList(uid:uid,isAllBook: false);
 
-              final List<Widget> widgets = const <Widget>[
-                  books
+               final List<Widget> widgets = books
                   .map(
                     (book) => Slidable(
-                      child:ListTile(
-                              leading: Container(child: book.imgURL!= null? Image.network(book.imgURL!, height:60,width:60,fit:BoxFit.cover):null),
-                              title: Text(book.title),
-                              subtitle: Text(book.author),
-                          ),
+                      child:Container(
+                        decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
+                        child: ListTile(
+                                leading: Container(child: book.imgURL!= null? Image.network(book.imgURL!, height:60,width:60,fit:BoxFit.cover):null),
+                                title: Text(book.title),
+                                subtitle: Text(book.author),
+                            ),
+                      ),
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
                         dismissible: DismissiblePane(onDismissed: () {}),
@@ -124,18 +127,10 @@ class BookListPage extends StatelessWidget {
                         ],
                       ),
                       ),
-              )];
+              )
               .toList();
-              return ListView.separated(
-                itemBuilder:(context,index){
-                  return widgets;
-              },
-                separatorBuilder: (context, index) {
-                return const Divider(
-                height: 1,
-                );
-                },
-              itemCount: books.length,
+              return ListView(
+                children:widgets,
               );
             }),
               ),
