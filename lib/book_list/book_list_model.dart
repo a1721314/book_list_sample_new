@@ -14,6 +14,7 @@ class BookListModel extends ChangeNotifier{
       snapshot = await FirebaseFirestore.instance
       // 全ての本を取得
       .collection('books')
+      .where('uid', isNotEqualTo: uid)
       .get();
     } else {
       snapshot = await FirebaseFirestore.instance
