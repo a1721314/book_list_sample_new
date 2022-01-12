@@ -1,3 +1,4 @@
+import 'package:book_list_sample_new/book_list/book_list_page.dart';
 import 'package:book_list_sample_new/register/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,12 @@ class LoginPage extends StatelessWidget {
                                 try {
                                   await model.login();
                                   Navigator.of(context).pop();
+                                  await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BookListPage(),
+                                  ),
+                                );
                                 } catch(e){
                                   final snackBar = SnackBar(
                                     backgroundColor:Colors.red,

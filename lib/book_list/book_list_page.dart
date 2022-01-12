@@ -8,6 +8,9 @@ import 'package:book_list_sample_new/login/login_page.dart';
 import 'package:book_list_sample_new/mypage/my_model.dart';
 import 'package:book_list_sample_new/mypage/my_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -17,17 +20,20 @@ class BookListPage extends StatelessWidget {
 
   // ユーザーIDの取得
   final String uid = FirebaseAuth.instance.currentUser!.uid;
+  
   final _tabs = <Tab>[
-    Tab(text:'自分の本棚'),
-    Tab(text:'他の人の本棚'),
+    const Tab(text:'自分の本棚'),
+    const Tab(text:'他の人の本棚'),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return  MultiProvider(
         providers: [
           ChangeNotifierProvider<BookListModel>(
-            create: (_) => BookListModel()..fetchBookList(uid:uid,isAllBook: true),
+            create: (_) => BookListModel()
+              ..fetchBookList(uid:uid,isAllBook: false)
+              ..fetchBookList(uid:uid,isAllBook: true),
           ),
         ],
       child: DefaultTabController(
@@ -35,28 +41,6 @@ class BookListPage extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('本棚'),
-            // actions:[
-            //   IconButton(
-            //       onPressed: () async {
-            //         //画面遷移
-            //         if(FirebaseAuth.instance.currentUser != null){
-            //           await Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //               builder: (context) => MyPage(),
-            //             ),
-            //           );
-            //         }else{
-            //           await Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //               builder: (context) => LoginPage(),
-            //             ),
-            //           );
-            //         }
-            //       },
-            //       icon: Icon(Icons.person)),
-            // ],
             bottom: TabBar(
                 tabs:_tabs
             ),
@@ -124,6 +108,7 @@ class BookListPage extends StatelessWidget {
     );
   }
 
+
   Future showConfirmDialog(BuildContext context, Book book, model){
     return showDialog(
       context: context,
@@ -186,9 +171,9 @@ class TabPage extends StatelessWidget {
               decoration: const BoxDecoration(
                   border: Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
                child: ListTile(
-                 //   leading: Container(child: book.imgURL!= null? Image.network(book.imgURL!, height:60,width:60,fit:BoxFit.cover):null),
-              //   title: Text(book.title),
-              //   subtitle: Text(book.author),
+                 leading: book.imgURL!= null? Image.network(book.imgURL!, height:60,width:60,fit:BoxFit.cover):Image.network("https://firebasestorage.googleapis.com/v0/b/book-list-sample-fdb8b.appspot.com/o/books%2Fnoimage.png?alt=media&token=f761b0b8-8ce5-4692-a3e8-31492a2df2b1", height:60,width:60,fit:BoxFit.cover),
+                 title: Text(book.title),
+                 subtitle: Text(book.author),
                ),
             ),
             endActionPane: ActionPane(
@@ -233,8 +218,7 @@ class TabPage extends StatelessWidget {
               ],
             ),
           ),
-        )
-            .toList();
+        ).toList();
         return ListView(
           children:widgets,
         );
