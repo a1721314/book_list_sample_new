@@ -5,13 +5,8 @@ import 'package:book_list_sample_new/book_list/book_list_model.dart';
 import 'package:book_list_sample_new/domain/book.dart';
 import 'package:book_list_sample_new/edit_book/edit_book_page.dart';
 import 'package:book_list_sample_new/login/login_page.dart';
-import 'package:book_list_sample_new/main.dart';
-import 'package:book_list_sample_new/mypage/my_model.dart';
 import 'package:book_list_sample_new/mypage/my_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +14,6 @@ import 'package:provider/provider.dart';
 class BookListPage extends StatelessWidget {
   // ユーザーIDの取得
   final String uid = FirebaseAuth.instance.currentUser!.uid;
-  //String uid;
-  
-  //BookListPage(this.uid, {Key? key}) : super(key: key);
 
   final _tabs = <Tab>[
     const Tab(text: '自分の本棚'),
