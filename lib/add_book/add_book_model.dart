@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,40 +6,43 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddBookModel extends ChangeNotifier{
+class AddBookModel extends ChangeNotifier {
   String? title;
   String? author;
   File? imageFile;
   final String uid = FirebaseAuth.instance.currentUser!.uid;
+  String? memo;
   bool isLoading = false;
 
   final picker = ImagePicker();
 
-  void startLoading(){
+  void startLoading() {
     isLoading = true;
     notifyListeners();
   }
 
-  void endLoading(){
+  void endLoading() {
     isLoading = true;
     notifyListeners();
   }
 
-  Future addBook() async{
-    if(title == null || title == ""){
+  Future addBook() async {
+    if (title == null || title == "") {
       throw 'タイトルが入力されていません';
     }
 
-    if(author == null || author!.isEmpty){
+    if (author == null || author!.isEmpty) {
       throw '著者が入力されていません';
     }
 
     final doc = FirebaseFirestore.instance.collection('books').doc();
 
     String? imgURL;
-    if(imageFile != null){
+    if (imageFile != null) {
       //storageにアップロード
-      final task = await FirebaseStorage.instance.ref('books/${doc.id}').putFile(imageFile!);
+      final task = await FirebaseStorage.instance
+          .ref('books/${doc.id}')
+          .putFile(imageFile!);
       imgURL = await task.ref.getDownloadURL();
     }
 
@@ -49,14 +51,15 @@ class AddBookModel extends ChangeNotifier{
       'title': title,
       'author': author,
       'imgURL': imgURL,
-      'uid':uid,
+      'uid': uid,
+      'memo': memo,
     });
   }
 
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if(pickedFile != null){
+    if (pickedFile != null) {
       imageFile = File(pickedFile.path);
       notifyListeners();
     }
