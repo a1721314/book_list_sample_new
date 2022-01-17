@@ -307,7 +307,7 @@ class _BookDescription extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           
           Text(
-            'memo:$memo',
+            memo!= null ? 'memo:$memo': "",
             style: const TextStyle(fontSize: 10.0),
           ),
         ],
