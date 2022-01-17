@@ -279,7 +279,7 @@ class _BookDescription extends StatelessWidget {
     Key? key,
     required this.title,
     required this.author,
-    this.memo,
+    required this.memo,
   }) : super(key: key);
 
   final String title;
@@ -305,8 +305,9 @@ class _BookDescription extends StatelessWidget {
             style: const TextStyle(fontSize: 10.0),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
+          
           Text(
-            'memo',
+            'memo:$memo',
             style: const TextStyle(fontSize: 10.0),
           ),
         ],
