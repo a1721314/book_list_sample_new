@@ -53,6 +53,17 @@ class AddBookPage extends StatelessWidget {
                           model.author = text;
                         },
                       ),
+                       SizedBox(
+                        height: 8,
+                      ),
+                      TextField(
+                        decoration:InputDecoration(
+                          hintText: 'メモ',
+                        ),
+                        onChanged: (text){
+                          model.memo = text;
+                        },
+                      ),
                       SizedBox(
                         height: 16,
                       ),
