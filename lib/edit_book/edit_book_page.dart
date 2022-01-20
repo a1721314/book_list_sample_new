@@ -22,6 +22,18 @@ class EditBookPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children:[
+                  // GestureDetector(
+                  //       child: SizedBox(
+                  //         width: 100,
+                  //         height:166,
+                  //         child: model.imageFile != null
+                  //             ? Image.file(model.imageFile!)
+                  //             : Container(color: Colors.grey),
+                  //       ),
+                  //       onTap: ()async {
+                  //         await model.pickImage();
+                  //       }
+                  //     ),
                   TextField(
                     controller:model.titleController,
                     decoration:const InputDecoration(
@@ -41,6 +53,18 @@ class EditBookPage extends StatelessWidget {
                     ),
                     onChanged: (text){
                       model.setAuthor(text);
+                    },
+                  ),
+                   const SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    controller:model.memoController,
+                    decoration:const InputDecoration(
+                      hintText: 'メモ',
+                    ),
+                    onChanged: (text){
+                      model.setMemo(text);
                     },
                   ),
                   const SizedBox(
