@@ -159,19 +159,6 @@ class TabPage extends StatelessWidget {
                   decoration: const BoxDecoration(
                       border: Border(
                           bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  // child: ListTile(
-                  //   leading: book.imgURL != null
-                  //       ? Image.network(book.imgURL!,
-                  //           height: 60, width: 60, fit: BoxFit.cover)
-                  //       : Image.network(
-                  //           "https://firebasestorage.googleapis.com/v0/b/book-list-sample-fdb8b.appspot.com/o/books%2Fnoimage.png?alt=media&token=f761b0b8-8ce5-4692-a3e8-31492a2df2b1",
-                  //           height: 60,
-                  //           width: 60,
-                  //           fit: BoxFit.cover),
-                  //   title: Text(book.title),
-                  //   subtitle: Text(book.author),
-                  //   isThreeLine: true,
-                  // ),
                   child: CustomListItem(
                       title: book.title,
                       author: book.author,
