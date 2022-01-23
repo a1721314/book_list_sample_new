@@ -26,7 +26,7 @@ class EditBookPage extends StatelessWidget {
                         child: SizedBox(
                           width: 100,
                           height:166,
-                          child: model.imgURL != null
+                          child: model.imageFile != null
                               ? Image.file(model.imageFile!)
                               : Container(color: Colors.grey),                          
                         ),
