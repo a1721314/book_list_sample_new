@@ -22,7 +22,7 @@ class EditBookModel extends ChangeNotifier {
   final titleController = TextEditingController();
   final authorController = TextEditingController();
   final memoController = TextEditingController();
-  
+
   final picker = ImagePicker();
 
   String? title;
@@ -43,6 +43,11 @@ class EditBookModel extends ChangeNotifier {
 
   void setMemo(String memo) {
     this.memo = memo;
+    notifyListeners();
+  }
+
+  void setImgURL(String imgURL) {
+    this.imgURL = imgURL;
     notifyListeners();
   }
 
@@ -95,9 +100,15 @@ class EditBookModel extends ChangeNotifier {
 
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final doc = FirebaseFirestore.instance.collection('books').doc();
 
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
+      //storageにアップロード
+      final task = await FirebaseStorage.instance
+          .ref('books/${doc.id}')
+          .putFile(imageFile!);
+      imgURL = await task.ref.getDownloadURL();
       notifyListeners();
     }
   }

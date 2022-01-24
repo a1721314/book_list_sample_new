@@ -21,25 +21,26 @@ class EditBookPage extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children:[
+                children: [
                   GestureDetector(
-                        child: SizedBox(
-                          width: 100,
-                          height:166,
-                          child: model.imageFile != null
-                              ? Image.file(model.imageFile!)
-                              : Container(color: Colors.grey),                          
-                        ),
-                        onTap: ()async {
-                          await model.pickImage();
-                        }
+                      child: SizedBox(
+                        width: 100,
+                        height: 166,
+                        child: model.imageFile != null
+                            ? Image.file(model.imageFile!,
+                                height: 60, width: 60, fit: BoxFit.cover)
+                            //: Container(color: Colors.grey),
+                            : Image.network(model.imgURL!,height: 60, width: 60, fit: BoxFit.cover)
                       ),
+                      onTap: () async {
+                        await model.pickImage();
+                      }),
                   TextField(
-                    controller:model.titleController,
-                    decoration:const InputDecoration(
+                    controller: model.titleController,
+                    decoration: const InputDecoration(
                       hintText: '本のタイトル',
                     ),
-                    onChanged: (text){
+                    onChanged: (text) {
                       model.setTitle(text);
                     },
                   ),
@@ -47,23 +48,23 @@ class EditBookPage extends StatelessWidget {
                     height: 8,
                   ),
                   TextField(
-                    controller:model.authorController,
-                    decoration:const InputDecoration(
+                    controller: model.authorController,
+                    decoration: const InputDecoration(
                       hintText: '本の著者',
                     ),
-                    onChanged: (text){
+                    onChanged: (text) {
                       model.setAuthor(text);
                     },
                   ),
-                   const SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   TextField(
-                    controller:model.memoController,
-                    decoration:const InputDecoration(
+                    controller: model.memoController,
+                    decoration: const InputDecoration(
                       hintText: 'メモ',
                     ),
-                    onChanged: (text){
+                    onChanged: (text) {
                       model.setMemo(text);
                     },
                   ),
@@ -71,26 +72,25 @@ class EditBookPage extends StatelessWidget {
                     height: 16,
                   ),
                   ElevatedButton(
-                      onPressed: model.isUpdated()? () async {
+                      onPressed: () async {
                         // 更新の処理
                         try {
                           await model.update();
                           Navigator.of(context).pop(model.title);
-                        } catch(e){
+                        } catch (e) {
                           final snackBar = SnackBar(
-                            backgroundColor:Colors.red,
+                            backgroundColor: Colors.red,
                             content: Text(e.toString()),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
-                      } : null,
-
+                      },
                       child: const Text('更新する')),
-                ],),
+                ],
+              ),
             );
           }),
         ),
-
       ),
     );
   }
