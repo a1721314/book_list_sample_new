@@ -84,10 +84,10 @@ class EditBookModel extends ChangeNotifier {
   }
 
   Future update() async {
-    this.title = titleController.text;
-    this.author = authorController.text;
-    this.memo = memoController.text;
-    this.imgURL = imgURL;
+    title = titleController.text;
+    author = authorController.text;
+    memo = memoController.text;
+    imgURL = imgURL;
 
     //firestoreに追加
     await FirebaseFirestore.instance.collection('books').doc(book.id).update({
